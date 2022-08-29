@@ -22,6 +22,10 @@ abstract class Localization {
   String get edit;
   String get send;
   String get okay;
+  String get todo_added;
+  String get todo_deleted;
+  String get todo_checked;
+  String get todo_unchecked;
 }
 
 class CodeTalksDemoLocalizationsDelegate extends LocalizationsDelegate<Localization> {

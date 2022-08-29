@@ -1,6 +1,6 @@
 # code_talks_demo
 
-A new Flutter project.
+A new Flutter projectfor Code.Talks 2022.
 
 ## Getting Started
 
@@ -20,12 +20,16 @@ samples, guidance on mobile development, and a full API reference.
 TL;DR: https://docs.flutter.dev/deployment/obfuscate
 
 ### Android
-Build and run:
-Deploy clean state:
+
+Open our emulator and:
+
+    flutter run
 
 ### iOS
-Build and run:
-Deploy clean state:
+
+Make your Mac and xCode ready for usual iOS/MacOS development, then you can run:
+
+    flutter build ios
 
 ### Web
 Build & run via:
@@ -42,3 +46,7 @@ Deploy clean state:
 Replace the icon within the `assets` folder and run:
 
     flutter pub run icons_launcher:create
+
+## Demo
+
+![sample](demo.png)

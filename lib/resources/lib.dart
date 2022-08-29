@@ -1,11 +1,9 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-enum BrandColor { dark, blue, lila, aqua, green, gold, orange, red }
+enum BrandColor { blue, lila, aqua, green, gold, orange, red }
 
 class ColorHelper {
   static length() {
@@ -14,8 +12,6 @@ class ColorHelper {
 
   static Color getValue(BrandColor color) {
     switch (color) {
-      case BrandColor.dark:
-        return const Color(0xFF051428);
       case BrandColor.blue:
         return const Color(0xFF647DEB);
       case BrandColor.lila:
@@ -81,62 +77,13 @@ class ColorHelper {
   }
 }
 
-Text getText(String text,
-        {double fontSize = 15,
-        FontWeight fontWeight = FontWeight.w400,
-        Color color = Colors.white,
-        TextAlign textAlign = TextAlign.left}) =>
-    Text(text,
-        textAlign: textAlign,
-        style: TextStyle(
-          fontSize: fontSize,
-          color: color,
-          fontWeight: fontWeight,
-        ));
-
-TextField getTextField(String hint,
-        {controller, textInputAction = TextInputAction.done}) =>
-    TextField(
-      controller: controller,
-      textInputAction: textInputAction,
-      decoration: InputDecoration(hintText: hint),
-    );
-
-Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
-  return rootBundle
-      .loadString(assetsPath)
-      .then((jsonStr) => jsonDecode(jsonStr));
-}
-
-AppBar getDefaultAppBar(
-        {title = 'METRO.digital Quiz',
-        backgroundColor = Colors.transparent,
-        elevation = 0.0,
-        iconThemeColor = Colors.white}) =>
-    AppBar(
-      title: Text(title),
-      backgroundColor: backgroundColor,
-      elevation: elevation,
-      iconTheme: IconThemeData(
-        color: iconThemeColor,
-      ),
-    );
-
-void showErrorToast(final BuildContext context, final String text) {
-  Toast.show(text,
-      duration: Toast.lengthLong,
-      backgroundColor: Theme.of(context).errorColor,
-      gravity: Toast.bottom);
-}
-
-void showSuccessToast(final BuildContext context, final String text) {
-  Toast.show(text,
-      duration: Toast.lengthLong,
-      backgroundColor: Theme.of(context).colorScheme.secondary,
-      textStyle: TextStyle(color: Theme.of(context).backgroundColor),
-      gravity: Toast.bottom);
-}
-
-void dismissKeyboard(final BuildContext context) {
-  FocusScope.of(context).requestFocus(FocusNode());
+void showToast(String message) {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black54,
+      textColor: Colors.white,
+      fontSize: 16.0);
 }

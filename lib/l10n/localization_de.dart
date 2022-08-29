@@ -13,4 +13,8 @@ class LocalizationDE implements Localization {
   @override String get edit => 'Ändern';
   @override String get send => 'Senden';
   @override String get okay => 'Okay';
+  @override String get todo_added => 'Notiz hinzugefügt';
+  @override String get todo_deleted => 'Notiz gelöscht';
+  @override String get todo_checked => 'Notiz erledigt';
+  @override String get todo_unchecked => 'Notiz aktiviert';
 }

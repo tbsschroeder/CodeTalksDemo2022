@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'CodeTalks',
       theme: ThemeData(
         brightness: Brightness.light,
-        backgroundColor: ColorHelper.getValue(BrandColor.dark),
+        backgroundColor: ColorHelper.getValue(BrandColor.blue),
         primaryColor: ColorHelper.getValue(BrandColor.lila),
         errorColor: ColorHelper.getValue(BrandColor.red),
         highlightColor: ColorHelper.getValue(BrandColor.orange),
@@ -56,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _descriptionFieldController =
       TextEditingController();
   final List<TodoItem> _todoItems = <TodoItem>[];
+  late Localization l10n;
 
   @override
   void initState() {
@@ -63,37 +64,35 @@ class _MyHomePageState extends State<MyHomePage> {
     _getTodos();
   }
 
-  Future<void> _addTodo() async {
+  Future<void> _addTodoDialog() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(Localization.of(context)!.add_todo),
+          title: Text(l10n.add_todo),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: _titleFieldController,
-                decoration: InputDecoration(
-                    hintText: Localization.of(context)!.type_todo),
+                decoration: InputDecoration(hintText: l10n.type_todo),
               ),
               TextField(
                 controller: _descriptionFieldController,
-                decoration: InputDecoration(
-                    hintText: Localization.of(context)!.type_descripion),
+                decoration: InputDecoration(hintText: l10n.type_descripion),
               ),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(Localization.of(context)!.cancel),
+              child: Text(l10n.cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text(Localization.of(context)!.add),
+              child: Text(l10n.add),
               onPressed: () {
                 Navigator.of(context).pop();
                 _addTodoItem(_titleFieldController.text,
@@ -106,125 +105,88 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<void> _editTodo(Todo todo) async {
-    _titleFieldController.text = todo.action;
-    _descriptionFieldController.text = todo.description;
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(Localization.of(context)!.add_todo),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _titleFieldController,
-                decoration: InputDecoration(
-                    hintText: Localization.of(context)!.type_todo),
-              ),
-              TextField(
-                controller: _descriptionFieldController,
-                decoration: InputDecoration(
-                    hintText: Localization.of(context)!.type_descripion),
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(Localization.of(context)!.cancel),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(Localization.of(context)!.send),
-              onPressed: () {
-                Navigator.of(context).pop();
-                _editTodoItem(todo, _titleFieldController.text,
-                    _descriptionFieldController.text);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _addTodoItem(String title, String description) async {
-    Todo todo = Todo(action: title, description: description, checked: false);
-    todo = await DBProvider.db.newTodo(todo);
-    setState(() {
-      _todoItems.add(TodoItem(
-        todo: todo,
-        onHandleDelete: _handleDelete,
-        onTodoChanged: _handleTodoChange,
-        onHandleEdit: _handleEdit,
-        l10n: Localization.of(context)!
-      ));
-    });
+    await DBProvider.db
+        .newTodo(Todo(action: title, description: description, checked: false));
+    _getTodos();
     _titleFieldController.clear();
     _descriptionFieldController.clear();
+    showToast(l10n.todo_added);
   }
 
-  void _editTodoItem(Todo todo, String title, String description) {
-    todo.action = _titleFieldController.text;
-    todo.description = _descriptionFieldController.text;
-    DBProvider.db.updateTodo(todo);
+  void _handleDelete(TodoItem item, int index) {
+    DBProvider.db.deleteTodo(item.todo.id);
+    setState(() => _todoItems.removeAt(index));
+    _getTodos();
+    showToast(l10n.todo_deleted);
   }
 
-  void _handleDelete(int index) {
-    DBProvider.db.deleteTodo(index);
-    setState(() {
-      _todoItems.removeAt(index);
-    });
-  }
-
-  void _handleTodoChange(Todo todo, int index) {
-    todo.checked = !todo.checked;
-    DBProvider.db.updateTodo(todo);
-    setState(() {
-      _todoItems[index].todo.checked = todo.checked;
-    });
-  }
-
-  void _handleEdit(int index) {
-    setState(() {
-      _todoItems[index].todo.action = '';
-      _todoItems[index].todo.description = '';
-    });
+  void _handleTodoChange(TodoItem item, int index) {
+    item.todo.checked = !item.todo.checked;
+    DBProvider.db.updateTodo(item.todo);
+    setState(() => _todoItems[index].todo.checked = item.todo.checked);
+    showToast(item.todo.checked ? l10n.todo_checked : l10n.todo_unchecked);
   }
 
   void _getTodos() async {
     final List<Todo> todos = await DBProvider.db.getTodos();
-    print('_getTodos');
-    print(todos);
     setState(() {
       _todoItems.clear();
-      for (var todo in todos) {
-        _todoItems.add(TodoItem(
+      todos.asMap().forEach((index, todo) => _todoItems.add(TodoItem(
           todo: todo,
+          index: index,
           onHandleDelete: _handleDelete,
           onTodoChanged: _handleTodoChange,
-          onHandleEdit: _handleEdit,
-          l10n: Localization.of(context)!));
-      }
+          l10n: l10n,
+          key: UniqueKey())));
     });
   }
 
+  FutureBuilder _getTodoList(final BuildContext context) =>
+      FutureBuilder<List<Todo>>(
+        future: DBProvider.db.getTodos(),
+        builder: (BuildContext context, AsyncSnapshot<List<Todo>> snapshot) {
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(
+                child: Text('¯\\_(ツ)_/¯',
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w700,
+                    )));
+          }
+          return ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: snapshot.data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                Todo todo = snapshot.data![index];
+                return TodoItem(
+                    todo: todo,
+                    index: index,
+                    onHandleDelete: _handleDelete,
+                    onTodoChanged: _handleTodoChange,
+                    l10n: l10n,
+                    key: UniqueKey());
+              });
+        },
+      );
+
   @override
   Widget build(BuildContext context) {
+    l10n = Localization.of(context)!;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.edit_note_outlined),
+        ),
         title: Text(widget.title),
+        backgroundColor: Colors.blueAccent,
       ),
-      body: ListView(padding: const EdgeInsets.all(16), children: _todoItems
-          //return TodoItem(index: index, todo: _todos[index], onTodoChanged: _handleTodoChange);
-
-          ),
+      body: _getTodoList(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addTodo,
-        tooltip: Localization.of(context)!.add_todo,
+        onPressed: _addTodoDialog,
+        tooltip: l10n.add_todo,
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

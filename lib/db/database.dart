@@ -53,8 +53,7 @@ class DBProvider {
 
   updateTodo(Todo newTodo) async {
     final db = await database;
-    var res =
-        await db.update('Todo', newTodo.toMap(), where: 'id = ?', whereArgs: [newTodo.id]);
+    var res = await db.update('Todo', newTodo.toMap(), where: 'id = ?', whereArgs: [newTodo.id]);
     return res;
   }
 
