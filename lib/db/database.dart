@@ -27,13 +27,6 @@ class DBProvider {
     });
   }
 
-  getNextId() async {
-    final db = await database;
-    var table = await db.rawQuery('SELECT MAX(id)+1 as id FROM Todo');
-    Object? id = table.first['id'];
-    return id != null ? int.parse(id.toString()) : 0;
-  }
-
   newTodo(Todo newTodo) async {
     final db = await database;
     var table = await db.rawQuery('SELECT MAX(id)+1 as id FROM Todo');

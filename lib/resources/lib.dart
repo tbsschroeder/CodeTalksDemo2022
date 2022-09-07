@@ -1,7 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io' show Platform;
 
 enum BrandColor { blue, lila, aqua, green, gold, orange, red }
 
@@ -28,27 +28,6 @@ class ColorHelper {
         return const Color(0xFFFF5A78);
       default:
         return const Color(0xFF051428);
-    }
-  }
-
-  static Color randomColor() {
-    switch (Random().nextInt(ColorHelper.length())) {
-      case 0:
-        return getValue(BrandColor.blue);
-      case 1:
-        return getValue(BrandColor.lila);
-      case 2:
-        return getValue(BrandColor.aqua);
-      case 3:
-        return getValue(BrandColor.green);
-      case 4:
-        return getValue(BrandColor.gold);
-      case 5:
-        return getValue(BrandColor.orange);
-      case 6:
-        return getValue(BrandColor.red);
-      default:
-        return getValue(BrandColor.blue);
     }
   }
 
@@ -86,4 +65,9 @@ void showToast(String message) {
       backgroundColor: Colors.black54,
       textColor: Colors.white,
       fontSize: 16.0);
+}
+
+String getMadeWithLove() {
+  var platform = kIsWeb ? 'the web' : Platform.operatingSystem;
+  return 'Made with ☕️ for $platform in Düsseldorf';
 }

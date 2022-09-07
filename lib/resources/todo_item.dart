@@ -1,4 +1,5 @@
 import 'package:code_talks_demo/db/todo_model.dart';
+import 'package:code_talks_demo/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'lib.dart';
@@ -46,12 +47,15 @@ class TodoItem extends StatelessWidget {
             color.red, color.green, color.blue, todo.checked ? 0.5 : 1.0),
         backgroundColor:
             todo.checked ? Colors.black54 : const Color(0xFF051428),
-        child: Text(todo.action.isNotEmpty ? todo.action[0].toUpperCase() : '?'));
+        child:
+            Text(todo.action == EMPTY ? '?' : todo.action[0].toUpperCase()));
   }
 
   SlidableAction _getDeleteSlidable() {
     return SlidableAction(
-      onPressed: (_){onHandleDelete(this, index);},
+      onPressed: (_) {
+        onHandleDelete(this, index);
+      },
       backgroundColor: const Color(0xFFFE4A49),
       foregroundColor: Colors.white,
       icon: Icons.delete,
@@ -61,21 +65,25 @@ class TodoItem extends StatelessWidget {
 
   SlidableAction _getDoneSlidable() {
     return SlidableAction(
-      onPressed: (_){onTodoChanged(this, index);},
+      onPressed: (_) {
+        onTodoChanged(this, index);
+      },
       backgroundColor: const Color(0xFF7BC043),
       foregroundColor: Colors.white,
-      icon: Icons.check,
+      icon: todo.checked ? Icons.note_add_outlined : Icons.check,
       label: todo.checked ? l10n.undone : l10n.done,
     );
   }
 
-  ListTile _getListTile(){
+  ListTile _getListTile() {
     return ListTile(
+      onTap: () {
+        onTodoChanged(this, index);
+      },
       leading: getAvatar(),
-      title: Text(todo.action.isNotEmpty ? todo.action : '-empty-',
+      title: Text(todo.action,
           style: _getTextStyle()),
-      subtitle: Text(
-          todo.description.isNotEmpty ? todo.description : '-empty-',
+      subtitle: Text(todo.description,
           style: _getTextStyle()),
     );
   }
