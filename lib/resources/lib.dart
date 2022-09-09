@@ -3,32 +3,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;
 
-enum BrandColor { blue, lila, aqua, green, gold, orange, red }
-
 class ColorHelper {
   static length() {
-    return BrandColor.values.length;
-  }
-
-  static Color getValue(BrandColor color) {
-    switch (color) {
-      case BrandColor.blue:
-        return const Color(0xFF647DEB);
-      case BrandColor.lila:
-        return const Color(0xFFB987FA);
-      case BrandColor.aqua:
-        return const Color(0xFF05DCC8);
-      case BrandColor.green:
-        return const Color(0xFFAFDC64);
-      case BrandColor.gold:
-        return const Color(0xFFF0D278);
-      case BrandColor.orange:
-        return const Color(0xFFF58C6E);
-      case BrandColor.red:
-        return const Color(0xFFFF5A78);
-      default:
-        return const Color(0xFF051428);
-    }
+    return 7;
   }
 
   static Color getByInt(int no) {
@@ -37,21 +14,21 @@ class ColorHelper {
     }
     switch (no) {
       case 0:
-        return getValue(BrandColor.blue);
+        return const Color(0xFF647DEB);
       case 1:
-        return getValue(BrandColor.lila);
+        return const Color(0xFFB987FA);
       case 2:
-        return getValue(BrandColor.aqua);
+        return const Color(0xFF05DCC8);
       case 3:
-        return getValue(BrandColor.green);
+        return const Color(0xFFAFDC64);
       case 4:
-        return getValue(BrandColor.gold);
+        return const Color(0xFFF0D278);
       case 5:
-        return getValue(BrandColor.orange);
+        return const Color(0xFFF58C6E);
       case 6:
-        return getValue(BrandColor.red);
+        return const Color(0xFFFF5A78);
       default:
-        return getValue(BrandColor.blue);
+        return const Color(0xFF051428);
     }
   }
 }

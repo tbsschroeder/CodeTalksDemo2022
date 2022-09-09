@@ -45,8 +45,7 @@ class TodoItem extends StatelessWidget {
     return CircleAvatar(
         foregroundColor: Color.fromRGBO(
             color.red, color.green, color.blue, todo.checked ? 0.5 : 1.0),
-        backgroundColor:
-            todo.checked ? Colors.black54 : const Color(0xFF051428),
+        backgroundColor: todo.checked ? Colors.black45 : Colors.black87,
         child: Text(todo.action == EMPTY ? '?' : todo.action[0].toUpperCase()));
   }
 
@@ -55,7 +54,7 @@ class TodoItem extends StatelessWidget {
       onPressed: (_) {
         onHandleDelete(this, index);
       },
-      backgroundColor: const Color(0xFFFE4A49),
+      backgroundColor: Colors.redAccent,
       foregroundColor: Colors.white,
       icon: Icons.delete,
       label: l10n.delete,
@@ -67,7 +66,7 @@ class TodoItem extends StatelessWidget {
       onPressed: (_) {
         onTodoChanged(this, index);
       },
-      backgroundColor: const Color(0xFF7BC043),
+      backgroundColor: Colors.lightGreenAccent,
       foregroundColor: Colors.white,
       icon: todo.checked ? Icons.note_add_outlined : Icons.check,
       label: todo.checked ? l10n.undone : l10n.done,

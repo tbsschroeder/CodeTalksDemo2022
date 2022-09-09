@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:code_talks_demo/db/todo_model.dart';
 import 'package:path/path.dart';
+
+// works on apps only, for web you need drift
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider {
