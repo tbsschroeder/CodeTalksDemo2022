@@ -10,8 +10,8 @@ class DBProvider {
   static final DBProvider db = DBProvider._();
 
   static Database? _database;
-  Future<Database> get database async =>
-      _database ??= await initDB();
+
+  Future<Database> get database async => _database ??= await initDB();
 
   initDB() async {
     var databasesPath = await getDatabasesPath();
@@ -40,13 +40,13 @@ class DBProvider {
           newTodo.description,
           newTodo.checked,
         ]);
-    //newTodo.setId(int.parse(id.toString()));
     return raw;
   }
 
   updateTodo(Todo newTodo) async {
     final db = await database;
-    var res = await db.update('Todo', newTodo.toMap(), where: 'id = ?', whereArgs: [newTodo.id]);
+    var res = await db.update('Todo', newTodo.toMap(),
+        where: 'id = ?', whereArgs: [newTodo.id]);
     return res;
   }
 
@@ -59,7 +59,8 @@ class DBProvider {
   Future<List<Todo>> getTodos() async {
     final db = await database;
     var res = await db.query('Todo');
-    List<Todo> list = res.isNotEmpty ? res.map((c) => Todo.fromMap(c)).toList() : [];
+    List<Todo> list =
+        res.isNotEmpty ? res.map((c) => Todo.fromMap(c)).toList() : [];
     return list;
   }
 

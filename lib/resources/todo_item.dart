@@ -47,8 +47,7 @@ class TodoItem extends StatelessWidget {
             color.red, color.green, color.blue, todo.checked ? 0.5 : 1.0),
         backgroundColor:
             todo.checked ? Colors.black54 : const Color(0xFF051428),
-        child:
-            Text(todo.action == EMPTY ? '?' : todo.action[0].toUpperCase()));
+        child: Text(todo.action == EMPTY ? '?' : todo.action[0].toUpperCase()));
   }
 
   SlidableAction _getDeleteSlidable() {
@@ -81,10 +80,8 @@ class TodoItem extends StatelessWidget {
         onTodoChanged(this, index);
       },
       leading: getAvatar(),
-      title: Text(todo.action,
-          style: _getTextStyle()),
-      subtitle: Text(todo.description,
-          style: _getTextStyle()),
+      title: Text(todo.action, style: _getTextStyle()),
+      subtitle: Text(todo.description, style: _getTextStyle()),
     );
   }
 

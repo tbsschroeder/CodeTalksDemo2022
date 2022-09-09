@@ -6,7 +6,7 @@ import 'package:code_talks_demo/db/database.dart';
 import 'l10n/localization.dart';
 import 'resources/lib.dart';
 
-final String EMPTY = '-empty-';
+const String EMPTY = '-empty-';
 
 class MyTodoPage extends StatefulWidget {
   const MyTodoPage({Key? key, required this.title}) : super(key: key);
@@ -27,7 +27,6 @@ class _MyTodoPageState extends State<MyTodoPage> {
   void initState() {
     super.initState();
     _getTodos();
-    print(getMadeWithLove());
   }
 
   Future<void> _addTodoDialog() async {
@@ -71,10 +70,10 @@ class _MyTodoPageState extends State<MyTodoPage> {
   }
 
   void _addTodoItem(String title, String description) async {
-    if (title.isEmpty){
+    if (title.isEmpty) {
       title = EMPTY;
     }
-    if (description.isEmpty){
+    if (description.isEmpty) {
       description = EMPTY;
     }
 
@@ -153,7 +152,9 @@ class _MyTodoPageState extends State<MyTodoPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            showToast(getMadeWithLove());
+          },
           icon: const Icon(Icons.edit_note_outlined),
         ),
         title: Text(widget.title),
