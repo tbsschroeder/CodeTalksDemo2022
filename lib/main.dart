@@ -1,5 +1,6 @@
 import 'package:code_talks_demo/todo.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'l10n/localization.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         Locale('en'),
         Locale('de'),
       ],
-      home: const MyTodoPage(title: 'Code.Talks Demo'),
+      home: const MyTodoPage(),
     );
   }
 }

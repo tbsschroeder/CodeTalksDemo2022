@@ -1,4 +1,4 @@
-import 'package:code_talks_demo/db/todo_model.dart';
+import 'package:code_talks_demo/db/todo_model.dart' show Todo;
 import 'package:code_talks_demo/resources/todo_item.dart';
 import 'package:flutter/material.dart';
 import 'package:code_talks_demo/db/database.dart';
@@ -6,12 +6,10 @@ import 'package:code_talks_demo/db/database.dart';
 import 'l10n/localization.dart';
 import 'resources/lib.dart';
 
-const String EMPTY = '-empty-';
+const String empty = '-empty-';
 
 class MyTodoPage extends StatefulWidget {
-  const MyTodoPage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MyTodoPage({Key? key}) : super(key: key);
 
   @override
   State<MyTodoPage> createState() => _MyTodoPageState();
@@ -71,10 +69,10 @@ class _MyTodoPageState extends State<MyTodoPage> {
 
   void _addTodoItem(String title, String description) async {
     if (title.isEmpty) {
-      title = EMPTY;
+      title = empty;
     }
     if (description.isEmpty) {
-      description = EMPTY;
+      description = empty;
     }
 
     await DBProvider.db
@@ -118,7 +116,7 @@ class _MyTodoPageState extends State<MyTodoPage> {
         child: Text('¯\\_(ツ)_/¯',
             style: TextStyle(
               fontSize: 24,
-              color: Colors.black54,
+              color: Colors.white70,
               fontWeight: FontWeight.w700,
             )));
   }
@@ -157,7 +155,7 @@ class _MyTodoPageState extends State<MyTodoPage> {
           },
           icon: const Icon(Icons.edit_note_outlined),
         ),
-        title: Text(widget.title),
+        title: const Text('Code.Talks Demo'),
         backgroundColor: Colors.blueAccent,
       ),
       body: _getTodoList(context),

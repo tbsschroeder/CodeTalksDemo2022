@@ -1,6 +1,6 @@
 # code_talks_demo
 
-A new Flutter projectfor Code.Talks 2022.
+A new Flutter project for Code.Talks 2022.
 
 ## Getting Started
 
@@ -40,6 +40,9 @@ Deploy clean state:
 
     rm -rf build/web/
     flutter build web --release --dart-define=FLUTTER_WEB_USE_SKIA=true 
+
+Note: This project is using a SQL library that has no web support yet. Therefore you need to include
+a library like [Drift](https://pub.dev/packages/drift)
 
 
 ### Update Icon

@@ -46,7 +46,7 @@ class TodoItem extends StatelessWidget {
         foregroundColor: Color.fromRGBO(
             color.red, color.green, color.blue, todo.checked ? 0.5 : 1.0),
         backgroundColor: todo.checked ? Colors.black45 : Colors.black87,
-        child: Text(todo.action == EMPTY ? '?' : todo.action[0].toUpperCase()));
+        child: Text(todo.action == empty ? '?' : todo.action[0].toUpperCase()));
   }
 
   SlidableAction _getDeleteSlidable() {
