@@ -28,9 +28,12 @@ class _MyTodoPageState extends State<MyTodoPage> {
   }
 
   Future<void> _addTodoDialog() async {
+    //showModalBottomSheet
+    //shape: const RoundedRectangleBorder(borderRadius:
+    //BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16))),
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(l10n.add_todo),
@@ -111,12 +114,14 @@ class _MyTodoPageState extends State<MyTodoPage> {
     });
   }
 
-  Center _getEmptyCenterText() {
-    return const Center(
+  Center _getEmptyCenterText(BuildContext context) {
+    return Center(
         child: Text('¯\\_(ツ)_/¯',
             style: TextStyle(
               fontSize: 24,
-              color: Colors.white70,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.tealAccent
+                  : Colors.black54,
               fontWeight: FontWeight.w700,
             )));
   }
@@ -126,7 +131,7 @@ class _MyTodoPageState extends State<MyTodoPage> {
         future: DBProvider.db.getTodos(),
         builder: (BuildContext context, AsyncSnapshot<List<Todo>> snapshot) {
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return _getEmptyCenterText();
+            return _getEmptyCenterText(context);
           }
           return ListView.builder(
               padding: const EdgeInsets.all(8),

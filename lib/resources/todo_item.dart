@@ -1,6 +1,7 @@
 import 'package:code_talks_demo/db/todo_model.dart';
 import 'package:code_talks_demo/todo.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'lib.dart';
 
@@ -100,7 +101,7 @@ class TodoItem extends StatelessWidget {
               children: [_getDeleteSlidable()],
             ),
             endActionPane: ActionPane(
-              motion: ScrollMotion(),
+              motion: const ScrollMotion(),
               children: [
                 _getDoneSlidable(),
               ],
